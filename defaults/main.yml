@@ -1,0 +1,9 @@
+---
+
+# Unencrypted screen password
+# Should come from vault or vars_prompt
+screen_password: ''
+user: '{{ ansible_user_id }}'
+dir: '{{ ansible_user_dir }}/.{{ansible_user_id }}'
+salt: '{{ default_screen_password_salt|default(42) }}'
+password: False

@@ -1,0 +1,36 @@
+---
+
+- assert:
+    that:
+      - ansible_ssh_user != 'root'
+      - ansible_user_dir is defined
+
+- name: our dot dir
+  file: { path: '{{ dir }}', state: directory }
+
+- name: generate crypted password
+  command: mkpasswd {{ screen_password }} {{ salt }}
+  register: mkpasswd
+  no_log: True
+  always_run: True
+  changed_when: False
+  when: &passwd screen_password is defined and screen_password != ''
+  delegate_to: localhost
+
+- set_fact:
+    crypted_screen_password: |
+      {{ mkpasswd.stdout }}
+  when: *passwd
+    
+- name: generate file
+  with_items: files
+  template:
+    src: '{{ name }}.j2'
+    dest: &dest '{{ dir }}/{{ group | default(name) }}.screen'
+
+- name: link to file
+  file:
+    state: link
+    src: *dest
+    dest: |
+      ~/{{ link | default('.screenrc-' + group | default(name)) }}

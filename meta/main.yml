@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: Thierry Delamare
+  description: Install a screenrc template
+  company: EpiConcept
+  license: MIT
+  min_ansible_version: 1.9
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+  - name: Debian
+    versions:
+    - wheezy
+    - jessie
+  categories:
+  - system
+dependencies: []

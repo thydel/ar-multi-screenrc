@@ -1,0 +1,8 @@
+##  -*- Mode: jinja2; -*-
+
+{% include 'common.j2' %}
+escape ^Zz
+
+{% for remote in remotes %}
+screen -t {{ remote.name }} {{ loop.index }} bash -l -i -c 'sshs2 {{ remote.ssh | default(remote.name + '.' + sshtld | default(omit)) }}'
+{% endfor %}
