@@ -3,6 +3,7 @@
 {% include 'common.j2' %}
 escape ^Zz
 
+{% set suffix = '' %}{% if sshtld is defined %}{% set suffix = '.' + sshtld %}{% endif %}
 {% for remote in remotes %}
-screen -t {{ remote.name }} {{ loop.index }} bash -l -i -c 'sshs2 {{ remote.ssh | default(remote.name + '.' + sshtld | default(omit)) }}'
+screen -t {{ remote.name }} {{ loop.index }} bash -l -i -c 'sshs2 {{ remote.ssh | default(remote.name + suffix) }}'
 {% endfor %}
