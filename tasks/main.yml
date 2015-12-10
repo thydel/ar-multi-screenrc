@@ -28,7 +28,10 @@
     src: '{{ name }}.j2'
     dest: &dest '{{ dir }}/{{ group | default(name) }}.screen'
 
+- { name: runp, register: runp, changed_when: False, command: date }
+
 - name: link to file
+  when: not runp | skipped
   file:
     state: link
     src: *dest
