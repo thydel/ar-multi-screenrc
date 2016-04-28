@@ -5,5 +5,7 @@ escape ^Zz
 
 {% set suffix = '' %}{% if sshtld is defined %}{% set suffix = '.' + sshtld %}{% endif %}
 {% for remote in remotes %}
+{% if remote.hide is not defined %}
 screen -t {{ remote.name }} {{ loop.index }} bash -l -i -c 'sshs2 {{ remote.ssh | default(remote.name + suffix) }}'
+{% endif %}
 {% endfor %}
