@@ -12,13 +12,13 @@
   command: mkpasswd {{ screen_password }} {{ salt }}
   register: mkpasswd
   no_log: True
-  always_run: True
+  check_mode: False
   changed_when: False
   when: &passwd screen_password is defined and screen_password != ''
   delegate_to: localhost
 
 - set_fact:
-    crypted_screen_password: |
+    crypted_screen_password: |-
       {{ mkpasswd.stdout }}
   when: *passwd
     
@@ -35,5 +35,5 @@
   file:
     state: link
     src: *dest
-    dest: |
+    dest: |-
       ~/{{ link | default('.screenrc-' + group | default(name)) }}
